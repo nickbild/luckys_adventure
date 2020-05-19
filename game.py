@@ -17,8 +17,8 @@ class GameLoop:
         self._running = True
 
         # Initialize characters.
-        self.player1 = Player("chewie.jpg", 25, 100)
-        self.enemy1 = Player("mario.png", 300, 300)
+        self.player1 = Player("graphics/blocky_front.png", 25, 472)
+        self.enemy1 = Player("graphics/snake.png", 300, 529)
 
         # Initialize sprite groups.
         self.enemy_group = pygame.sprite.Group()
@@ -36,9 +36,11 @@ class GameLoop:
             if event.key == pygame.K_RIGHT:
                 self.player1.move_right()
             if event.key == pygame.K_UP:
-                self.player1.move_up()
+                #self.player1.move_up()
+                pass
             if event.key == pygame.K_DOWN:
-                self.player1.move_down()
+                #self.player1.move_down()
+                pass
             if event.key == pygame.K_SPACE:
                 if not self.player1.jump_in_progress():
                     self.player1.jump_start()
@@ -65,7 +67,7 @@ class GameLoop:
             print("collision")
 
         # Add elements to display surface.
-        self._display_surf.fill((255,255,255))  # Background
+        self._display_surf.fill((52, 235, 235))  # Background
         self.player1.display_player(self._display_surf)
         self.enemy1.display_player(self._display_surf)
 

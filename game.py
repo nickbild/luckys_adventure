@@ -16,8 +16,9 @@ class GameLoop:
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
 
-        # Initialize player.
-        self.player1 = Player("chewie.jpg")
+        # Initialize characters.
+        self.player1 = Player("chewie.jpg", 25, 100)
+        self.enemy1 = Player("mario.png", 300, 300)
 
 
     def on_event(self, event):
@@ -47,12 +48,14 @@ class GameLoop:
 
 
     def on_loop(self):
-        # Adjust player position.
+        # Adjust character positions.
         self.player1.reposition_player()
+        self.enemy1.reposition_player()
 
         # Add elements to display surface.
-        self._display_surf.fill((255,255,255))
-        self.player1.display_player(self._display_surf)
+        self._display_surf.fill((255,255,255))              # Background
+        self.player1.display_player(self._display_surf)     # Player 1
+        self.enemy1.display_player(self._display_surf)      # Enemy 1
 
 
     def on_render(self):

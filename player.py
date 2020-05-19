@@ -2,13 +2,13 @@ import pygame
 
 
 class Player:
-    def __init__(self, img):
+    def __init__(self, img, x, y):
         # Initialize player variables.
         self.image = pygame.image.load(img)
         self.image.set_alpha(128)
 
-        self.x = 50
-        self.y = 50
+        self.x = x
+        self.y = y
 
         self.move_l = 0
         self.move_r = 0

@@ -19,10 +19,13 @@ class GameLoop:
         # Initialize characters.
         self.player1 = Player("graphics/blocky_front.png", 25, 472)
         self.enemy1 = Player("graphics/snake.png", 300, 529)
+        self.enemy2 = Player("graphics/poison_grapes.png", 375, 529)
+        self.enemy3 = Player("graphics/tree.png", 400, 100)
 
         # Initialize sprite groups.
         self.enemy_group = pygame.sprite.Group()
         self.enemy_group.add(self.enemy1)
+        self.enemy_group.add(self.enemy2)
 
 
     def on_event(self, event):
@@ -68,8 +71,10 @@ class GameLoop:
 
         # Add elements to display surface.
         self._display_surf.fill((52, 235, 235))  # Background
+        self.enemy3.display_player(self._display_surf)
         self.player1.display_player(self._display_surf)
         self.enemy1.display_player(self._display_surf)
+        self.enemy2.display_player(self._display_surf)
 
 
     def on_render(self):

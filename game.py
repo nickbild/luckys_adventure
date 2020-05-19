@@ -20,6 +20,9 @@ class GameLoop:
         self.player1 = Player("chewie.jpg", 25, 100)
         self.enemy1 = Player("mario.png", 300, 300)
 
+        self.enemy_group = pygame.sprite.Group()
+        self.enemy_group.add(self.enemy1)
+
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -52,10 +55,14 @@ class GameLoop:
         self.player1.reposition_player()
         self.enemy1.reposition_player()
 
+        # Check for collisions.
+        if pygame.sprite.spritecollide(self.player1, self.enemy_group, False):
+            print("collision")
+
         # Add elements to display surface.
-        self._display_surf.fill((255,255,255))              # Background
-        self.player1.display_player(self._display_surf)     # Player 1
-        self.enemy1.display_player(self._display_surf)      # Enemy 1
+        self._display_surf.fill((255,255,255))  # Background
+        self.player1.display_player(self._display_surf)
+        self.enemy1.display_player(self._display_surf)
 
 
     def on_render(self):

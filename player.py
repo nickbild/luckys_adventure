@@ -1,14 +1,16 @@
 import pygame
 
 
-class Player:
+class Player(pygame.sprite.Sprite):
     def __init__(self, img, x, y):
+        pygame.sprite.Sprite.__init__(self)
+
         # Initialize player variables.
         self.image = pygame.image.load(img)
-        self.image.set_alpha(128)
+        self.rect = self.image.get_rect()
 
-        self.x = x
-        self.y = y
+        self.rect.left = x
+        self.rect.top = y
 
         self.move_l = 0
         self.move_r = 0
@@ -49,9 +51,9 @@ class Player:
 
 
     def reposition_player(self):
-        self.x += self.move_l + self.move_r
-        self.y += self.move_u + self.move_d
+        self.rect.left += self.move_l + self.move_r
+        self.rect.top += self.move_u + self.move_d
 
 
     def display_player(self, dsp_surface):
-        dsp_surface.blit(self.image, (self.x, self.y))
+        dsp_surface.blit(self.image, (self.rect.left, self.rect.top))

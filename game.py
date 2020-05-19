@@ -20,6 +20,7 @@ class GameLoop:
         self.player1 = Player("chewie.jpg", 25, 100)
         self.enemy1 = Player("mario.png", 300, 300)
 
+        # Initialize sprite groups.
         self.enemy_group = pygame.sprite.Group()
         self.enemy_group.add(self.enemy1)
 
@@ -38,6 +39,9 @@ class GameLoop:
                 self.player1.move_up()
             if event.key == pygame.K_DOWN:
                 self.player1.move_down()
+            if event.key == pygame.K_SPACE:
+                if not self.player1.jump_in_progress():
+                    self.player1.jump_start()
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
@@ -52,6 +56,7 @@ class GameLoop:
 
     def on_loop(self):
         # Adjust character positions.
+        self.player1.jump()
         self.player1.reposition_player()
         self.enemy1.reposition_player()
 

@@ -95,10 +95,10 @@ class Player(pygame.sprite.Sprite):
             self.m = self.m_init
 
 
-    def reposition_player(self):
+    def reposition(self):
         self.rect.left += self.move_l + self.move_r
         self.rect.top += self.move_u + self.move_d
 
 
-    def display_player(self, dsp_surface):
+    def display(self, dsp_surface):
         dsp_surface.blit(self.image, (self.rect.left, self.rect.top))

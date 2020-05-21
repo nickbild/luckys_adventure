@@ -16,7 +16,6 @@ class Background(pygame.sprite.Sprite):
         self.rect1.top = y
 
         # Movement
-        self.position_x = 0
         self.move_l = 0
         self.move_r = 0
         self.step = step
@@ -39,18 +38,15 @@ class Background(pygame.sprite.Sprite):
 
 
     def reposition(self):
-        self.position_x += -1 * (self.move_l + self.move_r)
-
         self.rect.left += self.move_l + self.move_r
         self.rect1.left += self.move_l + self.move_r
 
         self.coords = [self.rect.left, self.rect1.left]
         self.coords.sort()
-        print("{} - {}".format(self.coords, self.position_x))
 
-        if abs(self.rect.left - self.position_x) > (self.rect.width + (self.rect.width * 0.25)):
+        if self.rect.right < 0:
             self.rect.left = self.coords[1] + self.rect.width
-        if abs(self.rect1.left - self.position_x) > (self.rect.width + (self.rect.width * 0.25)):
+        if self.rect1.right < 0:
             self.rect1.left = self.coords[1] + self.rect.width
 
 

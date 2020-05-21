@@ -2,6 +2,7 @@ import pygame
 from player import Player
 from background import Background
 
+
 class GameLoop:
     def __init__(self):
         self._running = True
@@ -40,11 +41,13 @@ class GameLoop:
             if event.key == pygame.K_LEFT:
                 for enemy in self.enemy_group:
                     enemy.move_right()
-                self.background1.move_right()
+                self.player1.move_left()
             if event.key == pygame.K_RIGHT:
                 for enemy in self.enemy_group:
                     enemy.move_left()
                 self.background1.move_left()
+                if self.player1.rect.left < (self.width * 0.4):
+                    self.player1.move_right()
             if event.key == pygame.K_SPACE:
                 if not self.player1.jump_in_progress():
                     self.player1.jump_start()
@@ -53,14 +56,23 @@ class GameLoop:
             if event.key == pygame.K_LEFT:
                 for enemy in self.enemy_group:
                     enemy.move_right_off()
-                self.background1.move_right_off()
+                self.player1.move_left_off()
             if event.key == pygame.K_RIGHT:
                 for enemy in self.enemy_group:
                     enemy.move_left_off()
                 self.background1.move_left_off()
+                self.player1.move_right_off()
 
 
     def on_loop(self):
+        # Handle keys held down at state transitions.
+        if self.player1.rect.left >= (self.width * 0.4):
+            self.player1.move_right_off()
+        if self.player1.rect.left <= 0:
+            self.player1.move_left_off()
+            for enemy in self.enemy_group:
+                enemy.move_right_off()
+
         # Adjust character positions.
         self.background1.reposition()
         self.player1.jump()
@@ -70,7 +82,8 @@ class GameLoop:
 
         # Check for collisions.
         if pygame.sprite.spritecollide(self.player1, self.enemy_group, False):
-            print("collision")
+            #print("collision")
+            pass
 
         # Add elements to display surface.
         self._display_surf.fill((52, 235, 235))  # Background

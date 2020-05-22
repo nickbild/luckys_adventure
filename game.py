@@ -18,10 +18,12 @@ class GameLoop:
         self._running = True
 
         # Initialize characters.
-        self.player1 = Player("graphics/blocky_front.png", 25, 472)
-        self.enemy1 = Player("graphics/snake.png", 300, 529)
-        self.enemy2 = Player("graphics/poison_grapes.png", 375, 529)
-        self.enemy3 = Player("graphics/tree.png", 700, 100)
+        self.player = Player("graphics/blocky_front.png", 25, 472,
+            ["graphics/blocky_right_0.png", "graphics/blocky_right_1.png", "graphics/blocky_right_2.png", "graphics/blocky_right_1.png"],
+            ["graphics/blocky_left_0.png", "graphics/blocky_left_1.png", "graphics/blocky_left_2.png", "graphics/blocky_left_1.png"])
+        self.enemy1 = Player("graphics/snake.png", 300, 529, None, None)
+        self.enemy2 = Player("graphics/poison_grapes.png", 375, 529, None, None)
+        self.enemy3 = Player("graphics/tree.png", 700, 100, None, None)
 
         # Initialize sprite groups.
         self.enemy_group = pygame.sprite.Group()
@@ -29,7 +31,8 @@ class GameLoop:
         self.enemy_group.add(self.enemy2)
         self.enemy_group.add(self.enemy3)
 
-        self.background1 = Background("graphics/background.jpg", 0, 0, 1)
+        # Initialize background.
+        self.background1 = Background("graphics/background.jpg", 0, 0, 2)
 
 
     def on_event(self, event):
@@ -45,17 +48,15 @@ class GameLoop:
         self.move_characters()
 
         # Check for collisions.
-        if pygame.sprite.spritecollide(self.player1, self.enemy_group, False):
+        if pygame.sprite.spritecollide(self.player, self.enemy_group, False):
             #print("collision")
             pass
 
         # Add elements to display surface.
         self.background1.display(self._display_surf)
-
         for enemy in self.enemy_group:
             enemy.display(self._display_surf)
-
-        self.player1.display(self._display_surf)
+        self.player.display(self._display_surf)
 
 
     def on_render(self):
@@ -82,42 +83,50 @@ class GameLoop:
     def keyboard_input(self):
         k = pygame.key.get_pressed()
 
+        show_front = True
+
         if k[pygame.K_LEFT]:
-            if self.player1.rect.left <= 0:
-                self.player1.move_left_off()
+            self.player.set_image(self.player.get_player_left_img())
+            show_front = False
+            if self.player.rect.left <= 0:
+                self.player.move_left_off()
                 for enemy in self.enemy_group:
                     enemy.move_right_off()
             else:
-                self.player1.move_left()
+                self.player.move_left()
 
         if k[pygame.K_RIGHT]:
-            if self.player1.rect.left >= (self.width * 0.4):
+            self.player.set_image(self.player.get_player_right_img())
+            show_front = False
+            if self.player.rect.left >= (self.width * 0.4):
                 for enemy in self.enemy_group:
                     enemy.move_left()
                 self.background1.move_left()
-            if self.player1.rect.left < (self.width * 0.4):
-                self.player1.move_right()
+            if self.player.rect.left < (self.width * 0.4):
+                self.player.move_right()
             else:
-                self.player1.move_right_off()
+                self.player.move_right_off()
 
         if k[pygame.K_SPACE]:
-            if not self.player1.jump_in_progress():
-                self.player1.jump_start()
+            if not self.player.jump_in_progress():
+                self.player.jump_start()
 
         if not k[pygame.K_LEFT]:
-            self.player1.move_left_off()
+            self.player.move_left_off()
 
         if not k[pygame.K_RIGHT]:
             for enemy in self.enemy_group:
                 enemy.move_left_off()
             self.background1.move_left_off()
-            self.player1.move_right_off()
+            self.player.move_right_off()
 
+        if show_front:
+            self.player.set_image(self.player.get_player_initial_image())
 
     def move_characters(self):
         self.background1.reposition()
-        self.player1.jump()
-        self.player1.reposition()
+        self.player.jump()
+        self.player.reposition()
         for enemy in self.enemy_group:
             enemy.reposition()
 

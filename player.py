@@ -2,10 +2,11 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, img, x, y):
+    def __init__(self, img, x, y, right_images, left_images):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load(img)
+        self.img = img
         self.rect = self.image.get_rect()
 
         self.rect.left = x
@@ -17,8 +18,16 @@ class Player(pygame.sprite.Sprite):
         self.move_d = 0
         self.move_u = 0
 
+        self.right_images = right_images
+        self.right_img_index = 0
+        self.right_img_slowdown = 0
+
+        self.left_images = left_images
+        self.left_img_index = 0
+        self.left_img_slowdown = 0
+
         # Jumping
-        self.v_init = 7
+        self.v_init = 8
         self.m_init = 1
 
         self.is_jumping = False
@@ -98,6 +107,36 @@ class Player(pygame.sprite.Sprite):
     def reposition(self):
         self.rect.left += self.move_l + self.move_r
         self.rect.top += self.move_u + self.move_d
+
+
+    def set_image(self, img):
+        self.image = pygame.image.load(img)
+
+
+    def get_player_initial_image(self):
+        return self.img
+
+
+    def get_player_right_img(self):
+        self.right_img_slowdown += 1
+        if self.right_img_slowdown == 5:
+            self.right_img_slowdown = 0
+            self.right_img_index += 1
+        if self.right_img_index == len(self.right_images):
+            self.right_img_index = 0
+
+        return self.right_images[self.right_img_index]
+
+
+    def get_player_left_img(self):
+          self.left_img_slowdown += 1
+          if self.left_img_slowdown == 5:
+              self.left_img_slowdown = 0
+              self.left_img_index += 1
+          if self.left_img_index == len(self.left_images):
+              self.left_img_index = 0
+
+          return self.left_images[self.left_img_index]
 
 
     def display(self, dsp_surface):

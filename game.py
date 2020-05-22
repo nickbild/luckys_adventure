@@ -36,49 +36,13 @@ class GameLoop:
         if event.type == pygame.QUIT:
             self._running = False
 
-        # Handle keyboard input.
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                for enemy in self.enemy_group:
-                    enemy.move_right()
-                self.player1.move_left()
-            if event.key == pygame.K_RIGHT:
-                for enemy in self.enemy_group:
-                    enemy.move_left()
-                self.background1.move_left()
-                if self.player1.rect.left < (self.width * 0.4):
-                    self.player1.move_right()
-            if event.key == pygame.K_SPACE:
-                if not self.player1.jump_in_progress():
-                    self.player1.jump_start()
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
-                for enemy in self.enemy_group:
-                    enemy.move_right_off()
-                self.player1.move_left_off()
-            if event.key == pygame.K_RIGHT:
-                for enemy in self.enemy_group:
-                    enemy.move_left_off()
-                self.background1.move_left_off()
-                self.player1.move_right_off()
-
 
     def on_loop(self):
-        # Handle keys held down at state transitions.
-        if self.player1.rect.left >= (self.width * 0.4):
-            self.player1.move_right_off()
-        if self.player1.rect.left <= 0:
-            self.player1.move_left_off()
-            for enemy in self.enemy_group:
-                enemy.move_right_off()
+        # Handle keyboard input.
+        self.keyboard_input()
 
         # Adjust character positions.
-        self.background1.reposition()
-        self.player1.jump()
-        self.player1.reposition()
-        for enemy in self.enemy_group:
-            enemy.reposition()
+        self.move_characters()
 
         # Check for collisions.
         if pygame.sprite.spritecollide(self.player1, self.enemy_group, False):
@@ -86,8 +50,6 @@ class GameLoop:
             pass
 
         # Add elements to display surface.
-        self._display_surf.fill((52, 235, 235))  # Background
-
         self.background1.display(self._display_surf)
 
         for enemy in self.enemy_group:
@@ -115,6 +77,49 @@ class GameLoop:
             self.on_loop()
             self.on_render()
         self.on_cleanup()
+
+
+    def keyboard_input(self):
+        k = pygame.key.get_pressed()
+
+        if k[pygame.K_LEFT]:
+            if self.player1.rect.left <= 0:
+                self.player1.move_left_off()
+                for enemy in self.enemy_group:
+                    enemy.move_right_off()
+            else:
+                self.player1.move_left()
+
+        if k[pygame.K_RIGHT]:
+            if self.player1.rect.left >= (self.width * 0.4):
+                for enemy in self.enemy_group:
+                    enemy.move_left()
+                self.background1.move_left()
+            if self.player1.rect.left < (self.width * 0.4):
+                self.player1.move_right()
+            else:
+                self.player1.move_right_off()
+
+        if k[pygame.K_SPACE]:
+            if not self.player1.jump_in_progress():
+                self.player1.jump_start()
+
+        if not k[pygame.K_LEFT]:
+            self.player1.move_left_off()
+
+        if not k[pygame.K_RIGHT]:
+            for enemy in self.enemy_group:
+                enemy.move_left_off()
+            self.background1.move_left_off()
+            self.player1.move_right_off()
+
+
+    def move_characters(self):
+        self.background1.reposition()
+        self.player1.jump()
+        self.player1.reposition()
+        for enemy in self.enemy_group:
+            enemy.reposition()
 
 
 if __name__ == "__main__" :

@@ -2,6 +2,7 @@ import pygame
 from player import Player
 from background import Background
 from enemy import Enemy
+from missile import Missile
 
 
 class GameLoop:
@@ -18,6 +19,11 @@ class GameLoop:
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
 
+        pygame.font.init()
+        self.info_font = pygame.font.SysFont('Comic Sans MS', 30)
+        self.score = 0
+        self.score_surface = self.info_font.render("Score: {0}".format(str(self.score)), False, (255, 0, 0))
+
         self.init_level_1()
 
     def on_event(self, event):
@@ -33,15 +39,22 @@ class GameLoop:
         self.move_characters()
 
         # Check for collisions.
-        if pygame.sprite.spritecollide(self.player, self.enemy_group, False):
-            #print("collision")
-            pass
+        for self.enemy_defeated_by_missile in self.enemy_defeated_by_missile_group:
+            if pygame.sprite.spritecollide(self.enemy_defeated_by_missile, self.missile_group, False):
+                if not self.enemy_defeated_by_missile.is_destroyed():
+                    self.score = self.player.add_score(100)
+                    self.score_surface = self.info_font.render("Score: {0}".format(str(self.score)), False, (255, 0, 0))
+                self.enemy_defeated_by_missile.blow_up("graphics/explosion.png")
 
         # Add elements to display surface.
         self.background.display(self._display_surf)
         for enemy in self.enemy_group:
             enemy.display(self._display_surf)
+        for missile in self.missile_group:
+            missile.display(self._display_surf)
         self.player.display(self._display_surf)
+
+        self._display_surf.blit(self.score_surface,(650,0))
 
 
     def on_render(self):
@@ -92,9 +105,16 @@ class GameLoop:
             else:
                 self.player.move_right_off()
 
-        if k[pygame.K_SPACE]:
+        if k[pygame.K_a]:
             if not self.player.jump_in_progress():
                 self.player.jump_start()
+
+        if k[pygame.K_s]:
+            if not self.bomb.throw_in_progress():
+                if k[pygame.K_LEFT]:
+                    self.bomb.throw_start(self.player.get_player_left(), self.player.get_player_top(), "L")
+                else:
+                    self.bomb.throw_start(self.player.get_player_right(), self.player.get_player_top(), "R")
 
         if not k[pygame.K_LEFT]:
             self.player.move_left_off()
@@ -112,8 +132,12 @@ class GameLoop:
         self.background.reposition()
         self.player.jump()
         self.player.reposition()
+
         for enemy in self.enemy_group:
             enemy.reposition()
+
+        for missile in self.missile_group:
+            missile.reposition()
 
 
     def init_level_1(self):
@@ -126,11 +150,19 @@ class GameLoop:
         self.enemy2 = Enemy("graphics/poison_grapes.png", 375, 529)
         self.enemy3 = Enemy("graphics/tree.png", 700, 100)
 
+        self.bomb = Missile("graphics/bomb.png", -100, 529)
+
         # Initialize sprite groups.
         self.enemy_group = pygame.sprite.Group()
         self.enemy_group.add(self.enemy1)
         self.enemy_group.add(self.enemy2)
         self.enemy_group.add(self.enemy3)
+
+        self.missile_group = pygame.sprite.Group()
+        self.missile_group.add(self.bomb)
+
+        self.enemy_defeated_by_missile_group = pygame.sprite.Group()
+        self.enemy_defeated_by_missile_group.add(self.enemy1)
 
         # Initialize background.
         self.background = Background("graphics/background.jpg", 0, 0, 2)

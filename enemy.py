@@ -18,6 +18,9 @@ class Enemy(pygame.sprite.Sprite):
         self.move_d = 0
         self.move_u = 0
 
+        self.destroyed = False
+        self.remain_after_destroy = 25
+
 
     def move_left(self):
         self.move_l = -5
@@ -39,6 +42,11 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.left += self.move_l + self.move_r
         self.rect.top += self.move_u + self.move_d
 
+        if self.destroyed:
+            self.remain_after_destroy -= 1
+            if self.remain_after_destroy <= 0:
+                self.rect.top = -1000
+
 
     def set_image(self, img):
         self.image = pygame.image.load(img)
@@ -46,6 +54,15 @@ class Enemy(pygame.sprite.Sprite):
 
     def get_initial_image(self):
         return self.img
+
+
+    def blow_up(self, img):
+        self.image = pygame.image.load(img)
+        self.destroyed = True
+
+
+    def is_destroyed(self):
+        return self.destroyed
 
 
     def display(self, dsp_surface):

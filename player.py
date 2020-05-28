@@ -36,6 +36,8 @@ class Player(pygame.sprite.Sprite):
         self.v = self.v_init
         self.m = self.m_init
 
+        self.score = 0
+
 
     def move_left(self):
         self.move_l = -5
@@ -112,6 +114,12 @@ class Player(pygame.sprite.Sprite):
     def set_image(self, img):
         self.image = pygame.image.load(img)
 
+        self.x = self.rect.left
+        self.y = self.rect.top
+        self.rect = self.image.get_rect()
+        self.rect.left = self.x
+        self.rect.top = self.y
+
 
     def get_player_initial_image(self):
         return self.img
@@ -137,6 +145,23 @@ class Player(pygame.sprite.Sprite):
               self.left_img_index = 0
 
           return self.left_images[self.left_img_index]
+
+
+    def get_player_top(self):
+        return self.rect.top
+
+
+    def get_player_right(self):
+        return self.rect.right
+
+
+    def get_player_left(self):
+        return self.rect.left
+
+
+    def add_score(self, amount):
+        self.score += amount
+        return self.score
 
 
     def display(self, dsp_surface):

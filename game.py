@@ -54,6 +54,9 @@ class GameLoop:
             self.move_characters()
 
             # Check for collisions.
+            if pygame.sprite.spritecollide(self.player, self.pipe_group, True):
+                self.level_1_complete()
+
             for self.enemy_defeated_by_missile in self.enemy_defeated_by_missile_group:
                 if pygame.sprite.spritecollide(self.enemy_defeated_by_missile, self.missile_group, False):
                     if not self.enemy_defeated_by_missile.is_destroyed():
@@ -206,6 +209,7 @@ class GameLoop:
         self.missile_group = pygame.sprite.Group()
         self.axe_group = pygame.sprite.Group()
         self.tree_group = pygame.sprite.Group()
+        self.pipe_group = pygame.sprite.Group()
 
         # Add sprites to groups.
         self.add_enemy_to_group("graphics/snake.png", 300, 529, self.enemy_group, [self.enemy_defeated_by_missile_group])
@@ -224,48 +228,53 @@ class GameLoop:
         self.add_enemy_to_group("graphics/snake.png", 5600, 529, self.enemy_group, [self.enemy_defeated_by_missile_group])
         self.add_enemy_to_group("graphics/snake.png", 6000, 529, self.enemy_group, [self.enemy_defeated_by_missile_group])
 
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 375, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 395, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 415, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 875, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 895, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1450, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1470, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1490, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1510, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1710, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1730, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1750, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1900, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1920, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1940, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 2300, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 2500, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 2700, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3500, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3520, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3540, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3700, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3900, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 4500, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 4900, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 5300, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 5320, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 5340, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 6000, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 6200, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 6400, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 7000, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 7020, 570, self.enemy_group, [])
-        # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 7040, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 375, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 395, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 415, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 875, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 895, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1450, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1470, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1490, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1510, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1710, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1730, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1750, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1900, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1920, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1940, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 2300, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 2500, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 2700, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3500, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3520, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3540, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3700, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 3900, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 4500, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 4900, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 5300, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 5320, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 5340, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 6000, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 6200, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 6400, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 7000, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 7020, 570, self.enemy_group, [])
+        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 7040, 570, self.enemy_group, [])
 
         self.add_enemy_to_group("graphics/tree.png", 8000, 100, self.enemy_group, [self.enemy_defeated_by_missile_group, self.tree_group])
+        self.add_enemy_to_group("graphics/pipe.png", 8700, 336, self.enemy_group, [self.pipe_group])
 
         self.missile_group.add(self.bomb)
 
         # Initialize background.
         self.background = Background("graphics/background.jpg", 0, 0, 2)
 
+    def level_1_complete(self):
+        self.background = Background("graphics/level_1_complete.png", 0, 0, 2)
+        self.player.set_position(-100, -15000)
+        self._running = False
 
 if __name__ == "__main__" :
     while True:

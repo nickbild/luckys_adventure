@@ -20,6 +20,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.destroyed = False
         self.remain_after_destroy = 25
+        self.blow_up_sound = pygame.mixer.Sound("sounds/explosion.wav")
 
 
     def move_left(self, speed_up):
@@ -62,6 +63,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def blow_up(self, img):
         self.image = pygame.image.load(img)
+        self.blow_up_sound.play()
         self.destroyed = True
 
 

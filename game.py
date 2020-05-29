@@ -236,7 +236,6 @@ class GameLoop:
         self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1450, 570, self.enemy_group, [])
         self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1470, 570, self.enemy_group, [])
         self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1490, 570, self.enemy_group, [])
-        self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1510, 570, self.enemy_group, [])
         self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1710, 570, self.enemy_group, [])
         self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1730, 570, self.enemy_group, [])
         self.add_enemy_to_group("graphics/poison_grapes_sm.png", 1750, 570, self.enemy_group, [])
@@ -274,6 +273,8 @@ class GameLoop:
     def level_1_complete(self):
         self.background = Background("graphics/level_1_complete.png", 0, 0, 2)
         self.player.set_position(-100, -15000)
+        self.wookiee_sound = pygame.mixer.Sound("sounds/wookiee.wav")
+        self.wookiee_sound.play()
         self._running = False
 
 if __name__ == "__main__" :

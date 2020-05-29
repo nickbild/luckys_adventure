@@ -27,6 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.left_img_slowdown = 0
 
         # Jumping
+        self.jump_sound = pygame.mixer.Sound("sounds/jump.wav")
         self.v_init = 8
         self.m_init = 1
 
@@ -39,6 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.score = 0
         self.lives = 3
         self.destroyed = False
+        self.blow_up_sound = pygame.mixer.Sound("sounds/explosion.wav")
 
 
     def move_left(self):
@@ -86,6 +88,7 @@ class Player(pygame.sprite.Sprite):
     def jump_start(self):
         self.is_jumping = True
         self.start_jump = self.rect.top
+        self.jump_sound.play()
 
 
     def jump(self):
@@ -179,6 +182,7 @@ class Player(pygame.sprite.Sprite):
     def blow_up(self, img):
         self.image = pygame.image.load(img)
         self.lives -= 1
+        self.blow_up_sound.play()
         self.destroyed = True
 
 

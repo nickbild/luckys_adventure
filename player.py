@@ -37,14 +37,22 @@ class Player(pygame.sprite.Sprite):
         self.m = self.m_init
 
         self.score = 0
+        self.lives = 3
+        self.destroyed = False
 
 
     def move_left(self):
-        self.move_l = -5
+        if self.is_jumping:
+            self.move_l = -10
+        else:
+            self.move_l = -5
 
 
     def move_right(self):
-        self.move_r = 5
+        if self.is_jumping:
+            self.move_r = 10
+        else:
+            self.move_r = 5
 
 
     def move_up(self):
@@ -166,3 +174,26 @@ class Player(pygame.sprite.Sprite):
 
     def display(self, dsp_surface):
         dsp_surface.blit(self.image, (self.rect.left, self.rect.top))
+
+
+    def blow_up(self, img):
+        self.image = pygame.image.load(img)
+        self.lives -= 1
+        self.destroyed = True
+
+
+    def is_destroyed(self):
+        return self.destroyed
+
+
+    def get_lives_left(self):
+        return self.lives
+
+
+    def set_position(self, x, y):
+        self.rect.left = x
+        self.rect.top = y
+
+
+    def revive(self):
+        self.destroyed = False

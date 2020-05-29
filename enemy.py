@@ -22,12 +22,16 @@ class Enemy(pygame.sprite.Sprite):
         self.remain_after_destroy = 25
 
 
-    def move_left(self):
+    def move_left(self, speed_up):
         self.move_l = -5
+        if speed_up:
+            self.move_l = self.move_l * 2
 
 
-    def move_right(self):
+    def move_right(self, speed_up):
         self.move_r = 5
+        if speed_up:
+            self.move_r = self.move_r * 2
 
 
     def move_left_off(self):
@@ -45,7 +49,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.destroyed:
             self.remain_after_destroy -= 1
             if self.remain_after_destroy <= 0:
-                self.rect.top = -1000
+                self.rect.top = -1200
 
 
     def set_image(self, img):

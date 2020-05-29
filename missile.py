@@ -45,7 +45,6 @@ class Missile(pygame.sprite.Sprite):
         self.rect.top += 3
 
         if self.rect.bottom >= 600:
-            # Explode here
             self.rect.top = -1000
             self.is_throwing = False
 
@@ -56,3 +55,7 @@ class Missile(pygame.sprite.Sprite):
 
     def display(self, dsp_surface):
         dsp_surface.blit(self.image, (self.rect.left, self.rect.top))
+
+
+    def set_throw_state(self, state):
+        self.is_throwing = state

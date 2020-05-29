@@ -21,12 +21,16 @@ class Background(pygame.sprite.Sprite):
         self.step = step
 
 
-    def move_left(self):
+    def move_left(self, speed_up):
         self.move_l = self.step * -1
+        if speed_up:
+            self.move_l = self.move_l *2
 
 
-    def move_right(self):
+    def move_right(self, speed_up):
         self.move_r = self.step
+        if speed_up:
+            self.move_r = self.move_r *2
 
 
     def move_left_off(self):

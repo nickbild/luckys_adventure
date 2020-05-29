@@ -20,4 +20,3 @@ python3 game.py
 | Right Arrow   | Move Right  |
 | a   | Jump  |
 | s   | Throw Bomb  |
-| ---- | ----|

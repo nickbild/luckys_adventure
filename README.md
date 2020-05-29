@@ -14,7 +14,6 @@ You'll need Python 3 and [PyGame](https://www.pygame.org/news) installed.  Then 
 python3 game.py
 ```
 
-|----|----|
 | Key | Action |
 | ---- | ----|
 | Left Arrow   | Move Left  |

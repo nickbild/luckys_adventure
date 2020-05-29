@@ -2,7 +2,7 @@
 
 Lucky's Adventure is a side-scrolling action game conceived by my 5 year old son, and programmed by me.
 
-You play as Mr. Blocky, the robot.  Jump to avoid touching the poison grapes, and throw your bombs to blow up the snakes!  Can you find the snake hiding the axe that you'll need to chop down the tree at the end of level 1?
+You play as Mr. Blocky the robot.  Jump to avoid touching the poison grapes, and throw your bombs to blow up the snakes!  Can you find the snake hiding the axe that you'll need to chop down the tree at the end of level 1?
 
 ![game_over](https://raw.githubusercontent.com/nickbild/luckys_adventure/master/graphics/game_over.jpg)
 

@@ -63,6 +63,8 @@ class GameLoop:
                             self.bomb.set_image("graphics/axe.png")
                     if self.enemy_defeated_by_missile in self.axe_group:
                         self.enemy_defeated_by_missile.blow_up("graphics/explosion_axe.png")
+                    elif self.enemy_defeated_by_missile in self.tree_group:
+                        self.enemy_defeated_by_missile.blow_up("graphics/explosion_big.png")
                     else:
                         self.enemy_defeated_by_missile.blow_up("graphics/explosion.png")
 
@@ -203,6 +205,7 @@ class GameLoop:
         self.enemy_defeated_by_missile_group = pygame.sprite.Group()
         self.missile_group = pygame.sprite.Group()
         self.axe_group = pygame.sprite.Group()
+        self.tree_group = pygame.sprite.Group()
 
         # Add sprites to groups.
         self.add_enemy_to_group("graphics/snake.png", 300, 529, self.enemy_group, [self.enemy_defeated_by_missile_group])
@@ -256,7 +259,7 @@ class GameLoop:
         # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 7020, 570, self.enemy_group, [])
         # self.add_enemy_to_group("graphics/poison_grapes_sm.png", 7040, 570, self.enemy_group, [])
 
-        self.add_enemy_to_group("graphics/tree.png", 8000, 100, self.enemy_group, [self.enemy_defeated_by_missile_group])
+        self.add_enemy_to_group("graphics/tree.png", 8000, 100, self.enemy_group, [self.enemy_defeated_by_missile_group, self.tree_group])
 
         self.missile_group.add(self.bomb)
 
